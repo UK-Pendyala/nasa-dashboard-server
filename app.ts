@@ -4,6 +4,7 @@ import cors from '@fastify/cors';
 import nasaRoutes from './src/routes/nasa.routes';
 import { validatorCompiler } from './src/core/validatorCompiler';
 import { errorHandler } from './src/core/errorHandler';
+import corsConfig from './src/core/corsConfig';
 
 export async function buildApp() {
   const app = Fastify({ logger: true });
@@ -12,18 +13,9 @@ export async function buildApp() {
 
   app.setErrorHandler(errorHandler);
 
-  await app.register(cors, {
-    origin: (origin, cb) => {
-      const allowlist = [
-        'http://localhost:3001',
-        'http://127.0.0.1:3001'
-      ];
-      if (!origin) return cb(null, true);
-      cb(null, allowlist.includes(origin));
-    },
-    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization'],
-  });
+  await app.register(cors, corsConfig);
+
+
   
   // Register routes
   app.register(nasaRoutes, { prefix: 'amex-challenge/api/nasa' });
