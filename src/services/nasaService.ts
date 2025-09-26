@@ -1,9 +1,8 @@
 // src/services/nasaService.ts
 import { http } from '../utils/http';
-// import type { Neo, NeoFeedResponse, NeoBrief } from '../types/nasa';
-import type { Neo } from '../types/Neo';
-import type { NeoFeedResponse } from '../types/NeoFeedResponse';
-import type { NeoBrief } from '../types/NeoBrief';
+import { Neo } from '../types';
+import { NeoBrief } from '../types/';
+import { NeoFeedResponse } from '../types';
 import { GetNeoBriefsParams } from '../types/GetNeoBriefsParams';
 
 const NASA_API_KEY = process.env.NASA_API_KEY || 'DEMO_KEY';

@@ -1,7 +1,7 @@
 // src/controllers/nasaController.ts
 import { FastifyReply, FastifyRequest } from 'fastify';
 import { getNeoBriefs } from '../services/nasaService';
-import { GetNeoBriefsParams } from '../types/GetNeoBriefsParams';
+import { GetNeoBriefsParams } from '../types/';
 import { addDays } from '../utils/date';
 
 type Query = GetNeoBriefsParams
