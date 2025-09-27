@@ -1,4 +1,4 @@
-# AMEX NASA Dashboard — Server
+# AMEX NASA Dashboard - Server
 
 Fastify + TypeScript backend for the NASA NEO (Near-Earth Objects) dashboard.  
 Exposes a single read API and a Swagger UI.
