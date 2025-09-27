@@ -1,3 +1,18 @@
+/**
+ * @interface Neo
+ * Represents a near-Earth object (NEO) with detailed information about its properties, dimensions, and close approach data.
+ *
+ * @property {string} id - The unique identifier of the NEO.
+ * @property {string} name - The name of the NEO.
+ * @property {string} neo_reference_id - The reference ID of the NEO.
+ * @property {string} nasa_jpl_url - The NASA JPL URL for more information about the NEO.
+ * @property {number} absolute_magnitude_h - The absolute magnitude (brightness) of the NEO.
+ * @property {object} estimated_diameter - The estimated diameter of the NEO in various units.
+ * @property {boolean} is_potentially_hazardous_asteroid - Indicates if the NEO is potentially hazardous.
+ * @property {Array<object>} close_approach_data - Data about the NEO's close approaches to Earth.
+ * @property {boolean} is_sentry_object - Indicates if the NEO is a sentry object (monitored for potential impact).
+ * @property {object} links - Links to additional information about the NEO.
+ */
 export interface Neo {
   id: string;
   name: string;

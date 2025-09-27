@@ -8,7 +8,14 @@ import { GetNeoBriefsParams } from '../types/GetNeoBriefsParams';
 const NASA_API_KEY = process.env.NASA_API_KEY || 'DEMO_KEY';
 const BASE_URL = process.env.NEO_FEED_BASE_URL || 'https://api.nasa.gov/neo/rest/v1/feed';
 
-
+/**
+ * Converts a detailed Near-Earth Object (NEO) into a brief summary for a specific day.
+ *
+ * @function toBrief
+ * @param {Neo} neo - The detailed NEO object containing all its properties.
+ * @param {string} day - The specific date (in YYYY-MM-DD format) to filter the close approach data.
+ * @returns {NeoBrief | null} A brief summary of the NEO for the given day, or null if no valid data is found.
+ */
 function toBrief(neo: Neo, day: string): NeoBrief | null {
   const approach = neo.close_approach_data.find(
     (c) => c.close_approach_date === day
@@ -38,7 +45,14 @@ function toBrief(neo: Neo, day: string): NeoBrief | null {
 }
 
 
-
+/**
+ * Fetches a list of brief summaries (NeoBrief items) for Near-Earth Objects (NEOs) within a specified date range.
+ *
+ * @function getNeoBriefs
+ * @param {GetNeoBriefsParams} params - The parameters containing the start and end dates for the NEO data.
+ * @returns {Promise<{ items: NeoBrief[] }>} A promise that resolves to an object containing an array of NEO briefs.
+ *
+ */
 export async function getNeoBriefs({
   startDate,
   endDate,

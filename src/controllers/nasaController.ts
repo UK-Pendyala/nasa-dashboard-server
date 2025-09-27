@@ -6,17 +6,25 @@ import { addDays } from '../utils/date';
 
 type Query = GetNeoBriefsParams
 
+/**
+ * Handles the request to fetch Near-Earth Objects (NEOs) within a specified date range.
+ *
+ * @function getNeoObjects
+ * @param {FastifyRequest<{ Querystring: GetNeoBriefsParams }>} req - The Fastify request object containing query parameters.
+ * @param {FastifyReply} reply - The Fastify reply object used to send the response.
+ * @returns {Promise<void>} A promise that resolves when the response is sent.
+ *
+ * @description
+ * This controller processes the request to fetch NEO data:
+ * - Calls the `getNeoBriefs` service to retrieve NEO summaries.
+ * - Responds with the NEO data, including the start date, end date (defaulted to startDate + 7 days), count, and items.
+ * - Handles errors from the upstream NASA API and logs them.
+ */
 export async function getNeoObjects(
   req: FastifyRequest<{ Querystring: Query }>,
   reply: FastifyReply
 ) {
   const { startDate, endDate } = req.query;
-
-  if (!startDate) {
-    return reply.status(400).send({
-      error: 'startDate is required (YYYY-MM-DD)',
-    });
-  }
 
   try {
     const { items } = await getNeoBriefs({ startDate, endDate });

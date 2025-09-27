@@ -12,7 +12,17 @@ import swaggerUI from '@fastify/swagger-ui';
 import { registerSwagger } from './src/core/swaggerConfig';
 
 
-
+/**
+ * Builds and configures the Fastify application instance.
+ *
+ * This function initializes a Fastify application with the following configurations:
+ * - Sets a custom validator compiler for schema validation.
+ * - Sets a global error handler for handling application errors.
+ * - Registers CORS middleware.
+ * - Registers application routes, including the NASA API routes.
+ * - Registers Swagger and Swagger UI for API documentation.
+ * - Defines a root endpoint (`/`) for a basic health check.
+ */
 export async function buildApp() {
   const app = Fastify({ logger: true });
 
