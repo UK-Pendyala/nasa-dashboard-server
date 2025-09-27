@@ -20,22 +20,30 @@ function toBrief(neo: Neo, day: string): NeoBrief | null {
   const approach = neo.close_approach_data.find((c) => c.close_approach_date === day);
   if (!approach) return null;
 
-  const min = neo.estimated_diameter.meters.estimated_diameter_min;
-  const max = neo.estimated_diameter.meters.estimated_diameter_max;
+  const minDiameterInMeters = neo.estimated_diameter.meters.estimated_diameter_min;
+  const maxDiameterInMeters = neo.estimated_diameter.meters.estimated_diameter_max;
+
+  const minDiameterInFeet = neo.estimated_diameter.feet.estimated_diameter_min;
+  const maxDiameterInFeet = neo.estimated_diameter.feet.estimated_diameter_max;
 
   const closenessKm = parseFloat(approach.miss_distance.kilometers);
-  const relativeVelocityKmS = parseFloat(approach.relative_velocity.kilometers_per_second);
+  const closenessMiles = parseFloat(approach.miss_distance.miles);
 
-  if (!Number.isFinite(closenessKm) || !Number.isFinite(relativeVelocityKmS)) {
+  const relativeVelocityKmH = parseFloat(approach.relative_velocity.kilometers_per_hour);
+  const relativeVelocityMiH = parseFloat(approach.relative_velocity.miles_per_hour);
+  if (!Number.isFinite(closenessKm) || !Number.isFinite(relativeVelocityKmH)) {
     return null;
   }
 
   return {
     id: neo.id,
     name: neo.name,
-    sizeMeters: (min + max) / 2,
+    sizeMeters: (minDiameterInMeters + maxDiameterInMeters) / 2,
+    sizeFeet: (minDiameterInFeet + maxDiameterInFeet) / 2,
     closenessKm,
-    relativeVelocityKmS,
+    closenessMiles,
+    relativeVelocityKmH,
+    relativeVelocityMiH,
     hazardous: neo.is_potentially_hazardous_asteroid,
   };
 }

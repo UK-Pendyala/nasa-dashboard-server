@@ -13,7 +13,10 @@ export interface NeoBrief {
   id: string;
   name: string;
   sizeMeters: number;
+  sizeFeet: number;
   closenessKm: number;
-  relativeVelocityKmS: number;
+  closenessMiles: number;
+  relativeVelocityKmH: number;
+  relativeVelocityMiH: number;
   hazardous: boolean;
 }
