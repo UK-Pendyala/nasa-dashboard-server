@@ -5,6 +5,6 @@
  * @property {string} [endDate] - The end date for the NEO data in YYYY-MM-DD format (optional; defaults to startDate).
  */
 export type GetNeoBriefsParams = {
-  startDate: string;   
-  endDate?: string; 
+  startDate: string;
+  endDate?: string;
 };

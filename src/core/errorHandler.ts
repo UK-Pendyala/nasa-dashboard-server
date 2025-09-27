@@ -18,15 +18,11 @@ import { FastifyError, FastifyReply, FastifyRequest } from 'fastify';
  *   - Logs the error for debugging purposes.
  *   - Responds with a 500 Internal Error status and the error message.
  */
-export const errorHandler = (
-  err: FastifyError,
-  _req: FastifyRequest,
-  reply: FastifyReply
-) => {
+export const errorHandler = (err: FastifyError, _req: FastifyRequest, reply: FastifyReply) => {
   // @ts-ignore
   const details: any[] = err?.validation?.[0]?.details || err?.details || [];
   if (details.length) {
-    const message = details.map(d => d.message.replace(/["]/g, '')).join('; ');
+    const message = details.map((d) => d.message.replace(/["]/g, '')).join('; ');
     return reply.status(400).send({ error: 'Bad Request', message });
   }
   reply.log.error(err);

@@ -38,11 +38,11 @@ export interface Neo {
       kilometers_per_hour: string;
       miles_per_hour: string;
     };
-    miss_distance: { kilometers: string, lunar: string, miles: string, astronomical: string };
+    miss_distance: { kilometers: string; lunar: string; miles: string; astronomical: string };
     orbiting_body: string;
   }>;
   is_sentry_object: boolean;
   links: {
     self: string;
-  }
+  };
 }

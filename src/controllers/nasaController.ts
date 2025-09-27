@@ -4,7 +4,7 @@ import { getNeoBriefs } from '../services/nasaService';
 import { GetNeoBriefsParams } from '../types/';
 import { addDays } from '../utils/date';
 
-type Query = GetNeoBriefsParams
+type Query = GetNeoBriefsParams;
 
 /**
  * Handles the request to fetch Near-Earth Objects (NEOs) within a specified date range.
@@ -22,7 +22,7 @@ type Query = GetNeoBriefsParams
  */
 export async function getNeoObjects(
   req: FastifyRequest<{ Querystring: Query }>,
-  reply: FastifyReply
+  reply: FastifyReply,
 ) {
   const { startDate, endDate } = req.query;
 

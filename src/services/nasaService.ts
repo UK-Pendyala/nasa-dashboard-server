@@ -17,18 +17,14 @@ const BASE_URL = process.env.NEO_FEED_BASE_URL || 'https://api.nasa.gov/neo/rest
  * @returns {NeoBrief | null} A brief summary of the NEO for the given day, or null if no valid data is found.
  */
 function toBrief(neo: Neo, day: string): NeoBrief | null {
-  const approach = neo.close_approach_data.find(
-    (c) => c.close_approach_date === day
-  );
+  const approach = neo.close_approach_data.find((c) => c.close_approach_date === day);
   if (!approach) return null;
 
   const min = neo.estimated_diameter.meters.estimated_diameter_min;
   const max = neo.estimated_diameter.meters.estimated_diameter_max;
 
   const closenessKm = parseFloat(approach.miss_distance.kilometers);
-  const relativeVelocityKmS = parseFloat(
-    approach.relative_velocity.kilometers_per_second
-  );
+  const relativeVelocityKmS = parseFloat(approach.relative_velocity.kilometers_per_second);
 
   if (!Number.isFinite(closenessKm) || !Number.isFinite(relativeVelocityKmS)) {
     return null;
@@ -44,7 +40,6 @@ function toBrief(neo: Neo, day: string): NeoBrief | null {
   };
 }
 
-
 /**
  * Fetches a list of brief summaries (NeoBrief items) for Near-Earth Objects (NEOs) within a specified date range.
  *
@@ -53,11 +48,8 @@ function toBrief(neo: Neo, day: string): NeoBrief | null {
  * @returns {Promise<{ items: NeoBrief[] }>} A promise that resolves to an object containing an array of NEO briefs.
  *
  */
-export async function getNeoBriefs({
-  startDate,
-  endDate,
-}: GetNeoBriefsParams): Promise<{
-  items: NeoBrief[]; 
+export async function getNeoBriefs({ startDate, endDate }: GetNeoBriefsParams): Promise<{
+  items: NeoBrief[];
 }> {
   const effectiveEnd = endDate ?? startDate;
 
@@ -74,7 +66,7 @@ export async function getNeoBriefs({
   const items: NeoBrief[] = [];
   for (const [day, neos] of Object.entries(feed)) {
     if (!neos) continue;
-  
+
     for (const neo of neos) {
       const brief = toBrief(neo, day);
       if (brief) {

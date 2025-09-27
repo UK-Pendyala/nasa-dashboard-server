@@ -18,18 +18,14 @@
 
 import type { FastifyCorsOptions } from '@fastify/cors';
 
-const DEFAULT_ALLOWLIST = [
-  'http://localhost:3001',
-  'http://127.0.0.1:3001',
-];
+const DEFAULT_ALLOWLIST = ['http://localhost:3001', 'http://127.0.0.1:3001'];
 
 const ENV_ALLOWLIST = (process.env.CORS_ALLOWLIST || '')
   .split(',')
-  .map(s => s.trim())
+  .map((s) => s.trim())
   .filter(Boolean);
 
 const ALLOWLIST = ENV_ALLOWLIST.length ? ENV_ALLOWLIST : DEFAULT_ALLOWLIST;
-
 
 const corsConfig: FastifyCorsOptions = {
   origin: (origin, cb) => {

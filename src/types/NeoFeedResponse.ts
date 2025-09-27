@@ -1,4 +1,4 @@
-import { NeoFeed } from "./NeoFeed";
+import { NeoFeed } from './NeoFeed';
 
 /**
  * @interface NeoFeedResponse
