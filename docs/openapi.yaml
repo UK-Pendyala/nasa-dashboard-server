@@ -1,0 +1,228 @@
+openapi: 3.0.3
+info:
+  title: AMEX NASA Dashboard API
+  version: 1.0.0
+  description: |
+    Returns Near-Earth Objects (NEOs) for a given date range using NASA NeoWs `/feed`.
+    - **startDate** is required (YYYY-MM-DD)
+    - **endDate** is optional (YYYY-MM-DD). If omitted, NASA defaults to 7 days after `startDate` if the upstream call is used accordingly.
+    - Sorting & pagination are handled on the client.
+servers:
+  - url: http://localhost:3000/amex-challenge/api/nasa
+    description: Local dev
+
+tags:
+  - name: nasa
+    description: NASA NeoWs integration
+
+paths:
+  /near-earth-objects:
+    get:
+      operationId: getNearEarthObjects
+      tags: [nasa]
+      summary: Near-Earth Objects for a date range (unsorted)
+      description: |
+        Returns all NEOs from NASA NeoWs `/feed` for the given `startDate` / `endDate`.
+        - Dates must be ISO `YYYY-MM-DD`.
+        - Business rule: `endDate` **must not** be before `startDate` (enforced by validation layer).
+      parameters:
+        - in: query
+          name: startDate
+          required: true
+          schema:
+            type: string
+            format: date
+            pattern: '^\d{4}-\d{2}-\d{2}$'
+          description: ISO date `YYYY-MM-DD`. **Required.**
+          example: '2015-09-07'
+        - in: query
+          name: endDate
+          required: false
+          schema:
+            type: string
+            format: date
+            pattern: '^\d{4}-\d{2}-\d{2}$'
+          description: |
+            ISO date `YYYY-MM-DD`. Optional.
+            If omitted, NASA API defaults it to `startDate + 7 days`.
+            Must be **greater than or equal to** `startDate`.
+          example: '2015-09-08'
+      responses:
+        '200':
+          description: Successful response with NEO list
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NeoRangeResponse'
+              examples:
+                sample:
+                  summary: Example result
+                  value:
+                    startDate: '2015-09-07'
+                    endDate: '2015-09-08'
+                    count: 27
+                    items:
+                      - id: '2465633'
+                        name: '465633 (2009 JR5)'
+                        sizeMeters: 1040.0
+                        closenessKm: 45290298.2257
+                        relativeVelocityKmS: 18.1279360862
+                        hazardous: true
+                      - id: '3426410'
+                        name: '(2008 QV11)'
+                        sizeMeters: 597.0
+                        closenessKm: 38764558.5506
+                        relativeVelocityKmS: 19.7498128142
+                        hazardous: false
+        '400':
+          description: Bad request (validation failed)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationError'
+              examples:
+                missingStartDate:
+                  summary: Missing required query param
+                  value:
+                    error: Bad Request
+                    message: startDate is required
+                badFormat:
+                  summary: Wrong date format
+                  value:
+                    error: Bad Request
+                    message: startDate must be in YYYY-MM-DD format
+                endBeforeStart:
+                  summary: Cross-field validation failure
+                  value:
+                    error: Bad Request
+                    message: endDate cannot be before startDate
+                unknownParam:
+                  summary: Unknown query parameter present
+                  value:
+                    error: Bad Request
+                    message: Only startDate and endDate are allowed
+        '502':
+          description: Upstream NASA API error or parsing error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GatewayError'
+              examples:
+                upstreamError:
+                  summary: NASA responded with non-200
+                  value:
+                    error: Bad Gateway
+                    detail: "NASA API error: Service Unavailable"
+        '500':
+          description: Unhandled server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServerError'
+              examples:
+                generic:
+                  value:
+                    error: Internal Error
+                    message: Unexpected error
+
+components:
+  schemas:
+    NeoBrief:
+      type: object
+      additionalProperties: false
+      required:
+        - id
+        - name
+        - sizeMeters
+        - closenessKm
+        - relativeVelocityKmS
+        - hazardous
+      properties:
+        id:
+          type: string
+          example: '2465633'
+        name:
+          type: string
+          example: '465633 (2009 JR5)'
+        sizeMeters:
+          type: number
+          description: Average of min/max estimated diameter in meters.
+          example: 1040.0
+        closenessKm:
+          type: number
+          description: Miss distance in kilometers (first approach entry for the day).
+          example: 45290298.2257
+        relativeVelocityKmS:
+          type: number
+          description: Relative velocity in km/s (first approach entry for the day).
+          example: 18.1279360862
+        hazardous:
+          type: boolean
+          description: NASA flag indicating potentially hazardous asteroid.
+          example: true
+
+    NeoRangeResponse:
+      type: object
+      additionalProperties: false
+      required:
+        - startDate
+        - endDate
+        - count
+        - items
+      properties:
+        startDate:
+          type: string
+          format: date
+          example: '2015-09-07'
+        endDate:
+          type: string
+          format: date
+          example: '2015-09-08'
+        count:
+          type: number
+          example: 27
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/NeoBrief'
+
+    ValidationError:
+      type: object
+      additionalProperties: false
+      required: [error, message]
+      properties:
+        error:
+          type: string
+          example: Bad Request
+        message:
+          type: string
+          description: Human-readable validation message derived from Joi (e.g., missing field, bad format, end < start, unknown param).
+          examples:
+            - startDate is required
+            - startDate must be in YYYY-MM-DD format
+            - endDate cannot be before startDate
+            - Only startDate and endDate are allowed
+
+    GatewayError:
+      type: object
+      additionalProperties: false
+      required: [error]
+      properties:
+        error:
+          type: string
+          example: Bad Gateway
+        detail:
+          type: string
+          example: "NASA API error: Service Unavailable"
+
+    ServerError:
+      type: object
+      additionalProperties: false
+      required: [error, message]
+      properties:
+        error:
+          type: string
+          example: Internal Error
+        message:
+          type: string
+          example: Unexpected error
