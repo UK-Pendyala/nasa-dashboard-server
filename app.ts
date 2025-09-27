@@ -9,6 +9,7 @@ import path from 'path';
 
 import swagger from '@fastify/swagger';
 import swaggerUI from '@fastify/swagger-ui';
+import { registerSwagger } from './src/core/swaggerConfig';
 
 
 
@@ -28,16 +29,6 @@ export async function buildApp() {
     reply.send({ message: 'NASA API is up. Use /near-earth-objects endpoint.' });
   });
 
-  await app.register(swagger, {
-    mode: 'static',
-    specification: {
-      path: path.resolve(process.cwd(), 'docs/openapi.yaml'),
-      baseDir: path.resolve(process.cwd(), 'docs'),
-    },
-  });
-  await app.register(swaggerUI, {
-    routePrefix: '/docs',
-    uiConfig: { docExpansion: 'list', deepLinking: false }
-  });
+  await registerSwagger(app);
   return app;
 }
