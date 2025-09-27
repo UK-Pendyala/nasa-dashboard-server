@@ -73,6 +73,17 @@ node dist/index.js
 - **build**: Compiles the TypeScript project into `dist/` using `tsconfig.json`.  
 - **start**: Runs the development server with `ts-node` (no build step).
 
+## Linting & Formatting
+
+This project is formatted using **Prettier** to ensure consistent code style across the codebase.
+
+#### Configurations:
+
+1. **`.prettierrc.json`**:  
+   - Defines formatting rules (e.g., quotes, line width, etc.).
+
+#### Command: 
+- `npm run format` – Format code using Prettier. 
 
 ## API Overview
 
@@ -92,14 +103,3 @@ node dist/index.js
   - If omitted, the backend treats it as `startDate` (or fetches NASA’s default range depending on implementation).  
   - Must not be before `startDate`.
 
-### Linting & Formatting
-
-This project is formatted using **Prettier** to ensure consistent code style across the codebase.
-
-#### Configurations:
-
-1. **`.prettierrc.json`**:  
-   - Defines formatting rules (e.g., quotes, line width, etc.).
-
-#### Command: 
-- `npm run format` – Format code using Prettier. 
