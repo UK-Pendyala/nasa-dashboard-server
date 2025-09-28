@@ -26,9 +26,9 @@ Create a `.env` file in the `server` folder:
 ```env
 # server/.env
 PORT=3000
-NEO_FEED_BASE_URL=https://api.nasa.gov/neo/rest/v1/feed
+NEO_FEED_BASE_URL=
 NASA_API_KEY=<YOUR_NASA_API_KEY>        # replace this with your key (do NOT commit it)
-CORS_ALLOWLIST=http://localhost:3001,http://127.0.0.1:3001
+CORS_ALLOWLIST=
 ```
   - You can temporarily use `DEMO_KEY`, but it’s heavily rate-limited.  
   - `CORS_ALLOWLIST` is a comma-separated list of frontend origins allowed to call this API.
