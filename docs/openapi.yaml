@@ -65,14 +65,20 @@ paths:
                       - id: '2465633'
                         name: '465633 (2009 JR5)'
                         sizeMeters: 1040.0
+                        sizeFeet: 3412.07377
                         closenessKm: 45290298.2257
-                        relativeVelocityKmS: 18.1279360862
+                        closenessMiles: 28141506.0
+                        relativeVelocityKmH: 51299.2834222082
+                        relativeVelocityMiH: 31879.632
                         hazardous: true
                       - id: '3426410'
                         name: '(2008 QV11)'
                         sizeMeters: 597.0
+                        sizeFeet: 1958.66142
                         closenessKm: 38764558.5506
-                        relativeVelocityKmS: 19.7498128142
+                        closenessMiles: 24090336.0
+                        relativeVelocityKmH: 36993.4162516325
+                        relativeVelocityMiH: 22986.2702259102
                         hazardous: false
         '400':
           description: Bad request (validation failed)
