@@ -3,7 +3,6 @@ import { http } from '../utils/http';
 import { Neo } from '../types';
 import { NeoBrief } from '../types/';
 import { NeoFeedResponse } from '../types';
-import { GetNeoBriefsParams } from '../types/GetNeoBriefsParams';
 
 const NASA_API_KEY = process.env.NASA_API_KEY || 'DEMO_KEY';
 const BASE_URL = process.env.NEO_FEED_BASE_URL || 'https://api.nasa.gov/neo/rest/v1/feed';

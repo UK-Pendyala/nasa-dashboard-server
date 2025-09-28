@@ -6,9 +6,19 @@
     "build": "tsc -p tsconfig.json",
     "start": "ts-node index.ts",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "lint": "eslint 'src/**/*.{ts,tsx}' --max-warnings=0",
-    "lint:fix": "eslint 'src/**/*.{ts,tsx}' --fix",
-    "format": "prettier --write 'src/**/*.{ts,tsx,js,json,md}'"
+    "lint:fix": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
+    "lint:check": "eslint \"{src,apps,libs,test}/**/*.ts\"",
+    "format": "prettier --write 'src/**/*.{ts,tsx,js,json,md}'",
+    "prepare": "husky install",
+    "postinstall": "if [ \"NODE_ENV\" == \"development\" ]; then chmod +x .husky/*; fi"
+  },
+  "lint-staged": {
+    "*.{ts,tsx,js,jsx}": [
+      "eslint --fix"
+    ],
+    "*.{json,css,scss,md}": [
+      "prettier --write"
+    ]
   },
   "author": "",
   "license": "ISC",
@@ -21,7 +31,10 @@
     "cors": "^2.8.5",
     "dotenv": "^17.2.2",
     "fastify": "^5.6.1",
-    "joi": "^18.0.1"
+    "husky": "^9.1.7",
+    "joi": "^18.0.1",
+    "lint-staged": "^16.2.1",
+    "typescript-eslint": "^8.44.1"
   },
   "devDependencies": {
     "@tsconfig/node20": "^20.1.6",
