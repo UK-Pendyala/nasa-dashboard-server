@@ -48,23 +48,20 @@ function toBrief(neo: Neo, day: string): NeoBrief | null {
   };
 }
 
+type Params = { startDate: string, effectiveEndDate: string }; 
 /**
  * Fetches a list of brief summaries (NeoBrief items) for Near-Earth Objects (NEOs) within a specified date range.
  *
  * @function getNeoBriefs
- * @param {GetNeoBriefsParams} params - The parameters containing the start and end dates for the NEO data.
+ * @param {Params} params - The parameters containing the start and end dates for the NEO data.
  * @returns {Promise<{ items: NeoBrief[] }>} A promise that resolves to an object containing an array of NEO briefs.
  *
  */
-export async function getNeoBriefs({ startDate, endDate }: GetNeoBriefsParams): Promise<{
+export async function getNeoBriefs({ startDate, effectiveEndDate }: Params): Promise<{
   items: NeoBrief[];
 }> {
-  const effectiveEnd = endDate ?? startDate;
 
-  let url = `${BASE_URL}?start_date=${encodeURIComponent(startDate)}&api_key=${NASA_API_KEY}`;
-  if (endDate) {
-    url += `&end_date=${encodeURIComponent(endDate)}`;
-  }
+  let url = `${BASE_URL}?start_date=${encodeURIComponent(startDate)}&api_key=${NASA_API_KEY}&end_date=${encodeURIComponent(effectiveEndDate)}`;
 
   const res = await http.get<NeoFeedResponse>(url);
 

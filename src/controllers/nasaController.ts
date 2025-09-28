@@ -27,11 +27,13 @@ export async function getNeoObjects(
   const { startDate, endDate } = req.query;
 
   try {
-    const { items } = await getNeoBriefs({ startDate, endDate });
+    // Default endDate to startDate + 7 days if not provided (As per NASA API)
+    const effectiveEndDate = endDate ? endDate : addDays(startDate, 7);
+    const { items } = await getNeoBriefs({ startDate, effectiveEndDate });
 
     return reply.send({
       startDate,
-      endDate: endDate ? endDate : addDays(startDate, 7),
+      endDate: effectiveEndDate,
       count: items.length,
       items,
     });
