@@ -60,8 +60,14 @@ export async function getNeoBriefs({ startDate, effectiveEndDate }: Params): Pro
   items: NeoBrief[];
 }> {
   let url = `${BASE_URL}?start_date=${encodeURIComponent(startDate)}&api_key=${NASA_API_KEY}&end_date=${encodeURIComponent(effectiveEndDate)}`;
+  let res;
 
-  const res = await http.get<NeoFeedResponse>(url);
+  try {
+    res = await http.get<NeoFeedResponse>(url);
+  } catch (error: any) {
+    console.error('Error fetching NEO data:', JSON.stringify(error.response.data.error_message));
+    throw error;
+  }
 
   // near_earth_objects is a map: { "YYYY-MM-DD": Neo[] }
   const feed = res.data.near_earth_objects ?? {};

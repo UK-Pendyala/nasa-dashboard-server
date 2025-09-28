@@ -1,4 +1,5 @@
 import Joi from 'joi';
+import { addDays } from '../utils/date';
 
 /**
  * @constant neoRangeJoi
@@ -27,26 +28,34 @@ export const neoRangeJoi = {
       .pattern(/^\d{4}-\d{2}-\d{2}$/)
       .required()
       .messages({
-        'any.required': 'startDate is required',
-        'string.pattern.base': 'startDate must be in YYYY-MM-DD format',
+        'any.required': 'start date is required',
+        'string.pattern.base': 'start date must be in YYYY-MM-DD format',
       }),
     endDate: Joi.string()
       .pattern(/^\d{4}-\d{2}-\d{2}$/)
       .optional()
       .messages({
-        'string.pattern.base': 'endDate must be in YYYY-MM-DD format',
+        'string.pattern.base': 'end date must be in YYYY-MM-DD format',
       }),
   })
     .custom((value, helpers) => {
       const { startDate, endDate } = value;
-      if (startDate && endDate && endDate < startDate) {
-        return helpers.error('any.invalid', { message: 'endDate cannot be before startDate' });
+
+      if (startDate && endDate) {
+        if (new Date(addDays(startDate, 7)) < new Date(endDate)) {
+          return helpers.error('any.invalid', {
+            message: 'Maximum range you can select is 7 days',
+          });
+        }
+        if (new Date(endDate) < new Date(startDate)) {
+          return helpers.error('any.invalid', { message: 'End date cannot be before start date' });
+        }
       }
       return value;
     })
     .unknown(false)
     .messages({
-      'object.unknown': 'Only startDate and endDate are allowed',
+      'object.unknown': 'Only start date and end date are allowed',
       'any.invalid': '{{#message}}',
     }),
 };
