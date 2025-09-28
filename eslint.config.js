@@ -5,10 +5,10 @@ import prettierConfig from 'eslint-config-prettier';
 
 export default [
   {
-    ignores: ['.eslintrc.js', 'dist'],
+    ignores: ['.eslintrc.js', 'dist', 'node_modules'],
   },
   {
-    files: ['**/*.ts', '**/*.tsx'],
+    files: ['**/*.ts'],
     languageOptions: {
       parser: tsParser,
       parserOptions: {

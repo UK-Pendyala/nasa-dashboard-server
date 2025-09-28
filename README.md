@@ -10,14 +10,12 @@ Exposes a single read API and a Swagger UI.
 
 - A NASA API key (free, instant email after signup): [https://api.nasa.gov/](https://api.nasa.gov/)
 
-
 ## 1. Clone & Install
 
 ```bash
 cd server
 npm install
 ```
-
 
 ## 2. Configure Environment
 
@@ -30,9 +28,9 @@ NEO_FEED_BASE_URL=
 NASA_API_KEY=<YOUR_NASA_API_KEY>        # replace this with your key (do NOT commit it)
 CORS_ALLOWLIST=
 ```
-  - You can temporarily use `DEMO_KEY`, but it’s heavily rate-limited.  
-  - `CORS_ALLOWLIST` is a comma-separated list of frontend origins allowed to call this API.
 
+- You can temporarily use `DEMO_KEY`, but it’s heavily rate-limited.
+- `CORS_ALLOWLIST` is a comma-separated list of frontend origins allowed to call this API.
 
 ## 3. Run in Development
 
@@ -40,14 +38,13 @@ CORS_ALLOWLIST=
 npm start
 ```
 
-- This uses `ts-node` to run `index.ts` directly.  
+- This uses `ts-node` to run `index.ts` directly.
 - The server will start on [http://localhost:3000](http://localhost:3000) (or the port specified in `PORT`).
 
 ### API Docs (Swagger)
 
-- Open [http://localhost:3000/docs](http://localhost:3000/docs) for Swagger UI.  
+- Open [http://localhost:3000/docs](http://localhost:3000/docs) for Swagger UI.
 - Open [http://localhost:3000/docs/json](http://localhost:3000/docs/json) for the raw OpenAPI JSON.
-
 
 ## 4. Run in Production
 
@@ -58,7 +55,7 @@ npm run build
 node dist/index.js
 ```
 
-- The compiled output goes to `dist/`.  
+- The compiled output goes to `dist/`.
 - Ensure `.env` is present on the server (or set environment variables in your process manager).
 
 ## Scripts
@@ -70,7 +67,7 @@ node dist/index.js
 }
 ```
 
-- **build**: Compiles the TypeScript project into `dist/` using `tsconfig.json`.  
+- **build**: Compiles the TypeScript project into `dist/` using `tsconfig.json`.
 - **start**: Runs the development server with `ts-node` (no build step).
 
 ## Linting & Formatting
@@ -79,11 +76,25 @@ This project is formatted using **Prettier** to ensure consistent code style acr
 
 #### Configurations:
 
-1. **`.prettierrc.json`**:  
+1. **`.prettierrc.json`**:
    - Defines formatting rules (e.g., quotes, line width, etc.).
 
-#### Command: 
-- `npm run format` – Format code using Prettier. 
+2. **`eslint.config.js`**:
+
+- Defines ESLint rules and configuration
+
+#### Commands:
+
+- `npm run format` – Format code using Prettier.
+- `npm run lint:check` - Runs ESLint to check for linting issues in all `.ts` files within the server
+- `npm rin lint:fix` - Runs ESLint with the `--fix` flag to automatically fix linting issues in the same directories.
+
+#### Pre-commit Hook:
+
+- **Lint-Staged**:  
+  Ensures that only staged files are formatted and linted before committing.
+  - Runs ESLint with `--fix` for `.ts` files.
+  - Runs Prettier for `.json` and `.md` files.
 
 ## API Overview
 
@@ -95,12 +106,11 @@ This project is formatted using **Prettier** to ensure consistent code style acr
 
 `GET /near-earth-objects?startDate=YYYY-MM-DD[&endDate=YYYY-MM-DD]`
 
-
 ### Query Parameters
 
 - **startDate** (required): `YYYY-MM-DD`
-- **endDate** (optional): `YYYY-MM-DD`  
-  - If omitted, the backend treats it as `startDate` (or fetches NASA’s default range depending on implementation).  
+- **endDate** (optional): `YYYY-MM-DD`
+  - If omitted, the backend treats it as `startDate` (or fetches NASA’s default range depending on implementation).
   - Must not be before `startDate`.
 
 ## Trade-offs
@@ -143,7 +153,7 @@ I chose **Fastify** due to project requirements. It provided strong TypeScript t
 - **Developer Experience (DX)**:  
   Provides autocomplete, safer refactoring, and ensures API changes (e.g., modifying response shapes) propagate as compile errors.
 
-- **Costs**:  
+- **Costs**:
   - Has steap learning curve for first time users.
 
 #### JavaScript
@@ -153,4 +163,4 @@ I chose **Fastify** due to project requirements. It provided strong TypeScript t
 
 #### my Choice
 
-I chose **TypeScript** for its correctness and maintainability as the API surface grows. Features like schemas and models integration benefit significantly from TypeScript.  
+I chose **TypeScript** for its correctness and maintainability as the API surface grows. Features like schemas and models integration benefit significantly from TypeScript.

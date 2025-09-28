@@ -13,10 +13,10 @@
     "postinstall": "if [ \"NODE_ENV\" == \"development\" ]; then chmod +x .husky/*; fi"
   },
   "lint-staged": {
-    "*.{ts,tsx,js,jsx}": [
+    "*.{ts}": [
       "eslint --fix"
     ],
-    "*.{json,css,scss,md}": [
+    "*.{json,md}": [
       "prettier --write"
     ]
   },
