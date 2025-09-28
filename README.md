@@ -103,3 +103,54 @@ This project is formatted using **Prettier** to ensure consistent code style acr
   - If omitted, the backend treats it as `startDate` (or fetches NASA’s default range depending on implementation).  
   - Must not be before `startDate`.
 
+## Trade-offs
+
+### 1. Fastify vs Express
+
+#### Fastify
+
+- **Performance**:  
+  Lower overhead with faster JSON handling and routing in benchmarks for typical API workloads.
+
+- **Plugin System**:  
+  Encapsulation and scoped decorators make it easier to structure large APIs.
+
+- **Type Support**:  
+  Provides good TypeScript typings out of the box (e.g., typed route parameters and replies).
+
+#### Express
+
+- **Familiarity & Ecosystem**:  
+  Ubiquitous documentation and examples, with a huge middleware ecosystem;
+
+- **Flexibility**:  
+  Minimal core, allowing for easy addition of small routes without requiring schemas or boilerplate.
+
+- **Tooling Inertia**:  
+  Many libraries and tutorials are built using Express. (Huge online documentation and support)
+
+#### my Choice
+
+I chose **Fastify** due to project requirements. It provided strong TypeScript types and was amazing.
+
+### 2. TypeScript vs JavaScript
+
+#### TypeScript
+
+- **Safety**:  
+  Static types catch route/DTO/middleware mismatches at compile time, leading to fewer runtime bugs.
+
+- **Developer Experience (DX)**:  
+  Provides autocomplete, safer refactoring, and ensures API changes (e.g., modifying response shapes) propagate as compile errors.
+
+- **Costs**:  
+  - Has steap learning curve for first time users.
+
+#### JavaScript
+
+- **Simplicity & Speed**:  
+  No build step required, making it the fastest option for prototyping and deploying small services.
+
+#### my Choice
+
+I chose **TypeScript** for its correctness and maintainability as the API surface grows. Features like schemas and models integration benefit significantly from TypeScript.  
