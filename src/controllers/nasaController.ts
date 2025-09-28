@@ -44,8 +44,8 @@ export async function getNeoObjects(
       (err?.response && Number.isInteger(err.response.status) && err.response.status) || 502;
 
     return reply.status(status).send({
-      error: 'Upstream NASA API failed',
-      detail: err?.message ?? 'Unknown error',
+      message: `Upstream NASA API failed. STATUS_CODE: ${status}`,
+      error: err?.message ?? 'Unknown error',
     });
   }
 }
