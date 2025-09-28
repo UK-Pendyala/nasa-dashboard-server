@@ -19,7 +19,7 @@ npm install
 
 ## 2. Configure Environment
 
-Create a `.env` file in the `server` folder:
+Create a `.env` file in the root directory with the variables from .env.example:
 
 ```env
 # server/.env
