@@ -29,7 +29,7 @@ NASA_API_KEY=<YOUR_NASA_API_KEY>        # replace this with your key (do NOT com
 CORS_ALLOWLIST=
 ```
 
-- You can temporarily use `DEMO_KEY`, but it’s heavily rate-limited.
+- You can temporarily use `DEMO_KEY` as value for API KEY, but it’s heavily rate-limited.
 - `CORS_ALLOWLIST` is a comma-separated list of frontend origins allowed to call this API.
 
 ## 3. Run in Development
