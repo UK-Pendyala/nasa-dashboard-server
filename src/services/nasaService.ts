@@ -6,7 +6,7 @@ import { NeoFeedResponse } from '../types';
 
 const NASA_API_KEY = process.env.NASA_API_KEY || 'DEMO_KEY';
 const BASE_URL = process.env.NEO_FEED_BASE_URL || 'https://api.nasa.gov/neo/rest/v1/feed';
-
+//test
 /**
  * Converts a detailed Near-Earth Object (NEO) into a brief summary for a specific day.
  *
@@ -47,7 +47,7 @@ function toBrief(neo: Neo, day: string): NeoBrief | null {
   };
 }
 
-type Params = { startDate: string, effectiveEndDate: string }; 
+type Params = { startDate: string; effectiveEndDate: string };
 /**
  * Fetches a list of brief summaries (NeoBrief items) for Near-Earth Objects (NEOs) within a specified date range.
  *
@@ -59,7 +59,6 @@ type Params = { startDate: string, effectiveEndDate: string };
 export async function getNeoBriefs({ startDate, effectiveEndDate }: Params): Promise<{
   items: NeoBrief[];
 }> {
-
   let url = `${BASE_URL}?start_date=${encodeURIComponent(startDate)}&api_key=${NASA_API_KEY}&end_date=${encodeURIComponent(effectiveEndDate)}`;
 
   const res = await http.get<NeoFeedResponse>(url);
