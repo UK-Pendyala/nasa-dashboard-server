@@ -13,7 +13,8 @@ Exposes a single read API and a Swagger UI.
 ## 1. Clone & Install
 
 ```bash
-cd server
+git clone https://github.com/UK-Pendyala/nasa-dashboard-server.git
+cd nasa-dashbaord-server
 npm install
 ```
 
