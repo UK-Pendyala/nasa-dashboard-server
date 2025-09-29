@@ -25,7 +25,7 @@ Create a `.env` file in the root directory with the variables from .env.example:
 # server/.env
 PORT=3000
 NEO_FEED_BASE_URL=
-NASA_API_KEY=<YOUR_NASA_API_KEY>        # replace this with your key (do NOT commit it)
+NASA_API_KEY=<YOUR_NASA_API_KEY>        # replace this with your key
 CORS_ALLOWLIST=
 ```
 
